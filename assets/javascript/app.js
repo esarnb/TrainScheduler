@@ -21,36 +21,50 @@ var submit = $("#add-train-btn");
 
 //Functions
 function nextArrival() {
+    var nextArrival = "--:-- AM"
 
+
+    return (nextArrival);
 }
 
 function minutesAway() {
+    var minutesAway = -1;
 
+
+    return (minutesAway);
+}
+
+function insertTrain(snapshot) {
+    var row = $("<tr>");
+        row.append($("<th>").text(snapshot.val().trainName));
+        row.append($("<th>").text(snapshot.val().destination));
+        row.append($("<th>").text(snapshot.val().frequency));
+        row.append($("<th>").text(nextArrival()));
+        row.append($("<th>").text(minutesAway()));
+    $("#train-table").append(row)
 }
 
 //New Train Event Listener
 database.ref().on("child_added", function(childSnapshot) {
     // Log everything that's coming out of snapshot
     console.log(
-        `Name: ${childSnapshot.val().trainName} |`+
-        `Destination: ${childSnapshot.val().destination} |`+
-        `FirstTrainTime: ${childSnapshot.val().firstTrainTime} |`+
-        `Frequency: ${childSnapshot.val().frequency} |`
+        `Name: ${childSnapshot.val().trainName} | `+
+        `Destination: ${childSnapshot.val().destination} | `+
+        `FirstTrainTime: ${childSnapshot.val().firstTrainTime} | `+
+        `Frequency: ${childSnapshot.val().frequency} | `
     )
+
+    insertTrain(childSnapshot)
+
+
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
 
-//Append NewTrain to site
-database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
-    var row = $("<tr>");
-        row.append($("<th>").text(snapshot.val().trainName));
-        row.append($("<th>").text(snapshot.val().destination));
-        row.append($("<th>").text(snapshot.val().frequency));
-        row.append($("<th>").text("Next Arrival"));
-        row.append($("<th>").text("Minutes Away"));
-    $("#train-table").append(row)
-});
+// //Append NewTrain to site
+// database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+//     insertTrain(snapshot)
+// });
 
 
 $(document).ready(function() {
