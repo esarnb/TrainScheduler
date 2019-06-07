@@ -9,6 +9,9 @@ var firebaseConfig = {
     appId: "1:721920220550:web:408403b22546d5a2"
 };
 
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
 //Global Variables
 var trainName = $("#train-name-input");
 var destination = $("#destination-input");
