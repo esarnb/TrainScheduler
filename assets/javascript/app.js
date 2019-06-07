@@ -25,7 +25,6 @@ function minutesAway() {
 
 }
 
-
 //New Train Event Listener
 database.ref().on("child_added", function(childSnapshot) {
     // Log everything that's coming out of snapshot
@@ -37,4 +36,15 @@ database.ref().on("child_added", function(childSnapshot) {
     )
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
+});
+
+//Append NewTrain to site
+database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+    var row = $("<tr>");
+        row.append($("<th>").text(snapshot.val().trainName));
+        row.append($("<th>").text(snapshot.val().destination));
+        row.append($("<th>").text(snapshot.val().frequency));
+        row.append($("<th>").text("Next Arrival"));
+        row.append($("<th>").text("Minutes Away"));
+    $("#train-table").append(row)
 });
