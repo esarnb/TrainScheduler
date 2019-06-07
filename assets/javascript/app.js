@@ -48,3 +48,30 @@ database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", functi
         row.append($("<th>").text("Minutes Away"));
     $("#train-table").append(row)
 });
+
+
+$(document).ready(function() {
+
+    //TODO: Pull information from firebase
+
+    //Update db and site with new train object
+    submit.on("click", function(event) {
+        event.preventDefault();
+        
+        //Push new data into firebase
+        var newTrain = {
+            trainName: trainName.val().trim(),
+            destination: destination.val().trim(),
+            firstTrainTime: firstTrainTime.val().trim(),
+            frequency: frequency.val().trim(),
+            dateAdded: firebase.database.ServerValue.TIMESTAMP
+        }
+        database.ref().push(newTrain);
+
+        //Reset text boxes on site
+        trainName.val("");
+        destination.val("");
+        firstTrainTime.val("");
+        frequency.val("");
+    })
+})
