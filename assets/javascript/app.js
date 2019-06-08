@@ -29,17 +29,20 @@ var submit = $("#add-train-btn");
  * Function
  */
 function nextArrival(firstTime, frequency, type) {
+    //Take the current time, subtract by the starting time. 
+    //The time between is the amount of time passed in minutes.
     var diff = moment(moment() - moment(firstTime, "HH:mm")).minutes()
-    console.log("diff: " + diff);
-    
+    //Take the minutes past and mod it by the frequency, to get the 
+    //remaining time till the next point for the normal schedule.
     var remainder = (diff % frequency)
-    console.log("remainder: " + remainder);
-    
+    //Subtract the remaining from the interval 
+    //to get the time left for the current time.
     var minutesAway = (frequency - remainder);
-    console.log("minutes: " + minutesAway);
-    
-    var nextTrain = moment().add(minutesAway, "minutes").format("HH:mm");
-    console.log(nextTrain);
+    //Add the current time left to present time, to get the waited military time
+    //Visually convert it to AM/PM for readability
+    moment("13:00", 'HH:mm').format('hh:mm a')
+    var nextTrain = moment().add(minutesAway, "minutes").format("hh:mm A");
+    console.log(`Diff: ${diff} Remainder: ${remainder} NextTrain: ${nextTrain} MinLeft: ${minutesAway} `);
     
     if (!firstTime || !frequency || !type) return "--"
     else if (type === "minutes") return minutesAway;
