@@ -20,18 +20,31 @@ var frequency = $("#frequency-input");
 var submit = $("#add-train-btn");
 
 //Functions
-function nextArrival() {
-    var nextArrival = "--:-- AM"
-
-
-    return (nextArrival);
-}
-
-function minutesAway() {
-    var minutesAway = -1;
-
-
-    return (minutesAway);
+/**
+ * 
+ * @param {String} firstTime : first train military timing
+ * @param {Integer or String} frequency : interval of each incoming train
+ * @param {String} type decides between responding with arrivals or time remaining when calling the function.
+ * 
+ * Function
+ */
+function nextArrival(firstTime, frequency, type) {
+    var diff = moment(moment() - moment(firstTime, "HH:mm")).minutes()
+    console.log("diff: " + diff);
+    
+    var remainder = (diff % frequency)
+    console.log("remainder: " + remainder);
+    
+    var minutesAway = (frequency - remainder);
+    console.log("minutes: " + minutesAway);
+    
+    var nextTrain = moment().add(minutesAway, "minutes").format("HH:mm");
+    console.log(nextTrain);
+    
+    if (!firstTime || !frequency || !type) return "--"
+    else if (type === "minutes") return minutesAway;
+    else if (type === "arrival") return nextTrain;
+    
 }
 
 function insertTrain(snapshot) {
@@ -39,12 +52,12 @@ function insertTrain(snapshot) {
         row.append($("<th>").text(snapshot.val().trainName));
         row.append($("<th>").text(snapshot.val().destination));
         row.append($("<th>").text(snapshot.val().frequency));
-        row.append($("<th>").text(nextArrival()));
-        row.append($("<th>").text(minutesAway()));
+        row.append($("<th>").text(nextArrival(snapshot.val().firstTrainTime, snapshot.val().frequency, "arrival")));
+        row.append($("<th>").text(nextArrival(snapshot.val().firstTrainTime, snapshot.val().frequency, "minutes")));
     $("#train-table").append(row)
 }
 
-//New Train Event Listener
+//New Train Event Listener pull info from firebase, update to website
 database.ref().on("child_added", function(childSnapshot) {
     // Log everything that's coming out of snapshot
     console.log(
@@ -68,8 +81,6 @@ database.ref().on("child_added", function(childSnapshot) {
 
 
 $(document).ready(function() {
-
-    //TODO: Pull information from firebase
 
     //Update db and site with new train object
     submit.on("click", function(event) {
