@@ -1,6 +1,6 @@
 # TrainScheduler
 
-![Demo of Train Scheduler](assets/images/demo.gif)
+![Demo of Train Scheduler](assets/images/trainDemo.gif)
 
 Want to try it out? Visit [my deployment](https://esarnb.github.io/TrainScheduler/).
 
@@ -33,6 +33,6 @@ If you would like to have your own database list of trains, you would need to cr
 
 ## Acknowledgments
 
-* This application uses the Firebase Realtime Database to store and retrieve train data. 
+* This application uses Google's Firebase Realtime Database to store and retrieve train data. 
 
-* JQuery is used to update and append elements to the Train Schedule Table.
+* JQuery is used to append and update elements to the Train Schedule Table.

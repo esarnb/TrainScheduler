@@ -40,7 +40,6 @@ function nextArrival(firstTime, frequency, type) {
     var minutesAway = (frequency - remainder);
     //Add the current time left to present time, to get the waited military time
     //Visually convert it to AM/PM for readability
-    moment("13:00", 'HH:mm').format('hh:mm a')
     var nextTrain = moment().add(minutesAway, "minutes").format("hh:mm A");
     console.log(`Diff: ${diff} Remainder: ${remainder} NextTrain: ${nextTrain} MinLeft: ${minutesAway} `);
     
@@ -76,12 +75,6 @@ database.ref().on("child_added", function(childSnapshot) {
 }, function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
-
-// //Append NewTrain to site
-// database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
-//     insertTrain(snapshot)
-// });
-
 
 $(document).ready(function() {
 

@@ -1,0 +1,16 @@
+body {
+    background-image: url("../images/station2.jpg");
+    background-size: stretch;
+}
+
+.card-header, .card-body, th {
+    font-size: large;
+}
+
+.card-header {
+    font-weight: bolder;
+}
+
+.jumbotron {
+    font-size: xx-large;
+}
